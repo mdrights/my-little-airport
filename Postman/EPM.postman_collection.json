@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "57c6fb2d-73cb-4c7a-9d19-ce343578b1ba",
+		"name": "EPM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38738128"
+	},
+	"item": [
+		{
+			"name": "Authenticate EPM - Auth Code",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "{{EPM_SCOPE}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{CLIENT_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{CLIENT_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{EPM_CALLBACK_URL}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "linus-ckhasw-epm-test",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{HOST}}/oauth2/v1/token",
+							"type": "string"
+						},
+						{
+							"key": "authRequestParams",
+							"value": [
+								{
+									"key": "response_type",
+									"value": "code",
+									"enabled": true,
+									"send_as": "request_url"
+								}
+							],
+							"type": "any"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{HOST}}/oauth2/v1/authorize",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://epm-test-ckhasw.epm.uk-london-1.ocs.oraclecloud.com/interop/rest/v1/services/dailymaintenance",
+					"protocol": "https",
+					"host": [
+						"epm-test-ckhasw",
+						"epm",
+						"uk-london-1",
+						"ocs",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"interop",
+						"rest",
+						"v1",
+						"services",
+						"dailymaintenance"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

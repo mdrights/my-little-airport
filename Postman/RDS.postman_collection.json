@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "42ca7c64-5a6b-410a-b773-025e18123c30",
+		"name": "RDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38738128"
+	},
+	"item": [
+		{
+			"name": "Obtain Token (client credentials)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{CLIENT_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{CLIENT_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "saveHelperData",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "showPassword",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "urn:opc:idm:__myscopes__",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{HOST_IDCS}}/oauth2/v1/token",
+					"host": [
+						"{{HOST_IDCS}}"
+					],
+					"path": [
+						"oauth2",
+						"v1",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Obtain access_token (client credentials)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "urn:opc:idm:__myscopes__",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST}}/oauth2/v1/token",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"oauth2",
+								"v1",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Oracle Identity Cloud Service"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Mar 2019 05:49:25 GMT"
+						},
+						{
+							"key": "X-xss-protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-control",
+							"value": "no-store"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-oracle-dms-rid",
+							"value": "0:1:1"
+						},
+						{
+							"key": "X-oracle-dms-ecid",
+							"value": "0vpaN088000000000"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-length",
+							"value": "4488"
+						},
+						{
+							"key": "X-content-type-options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 net-idcs-config, 1.1 net-idcs-dev-lbr"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJ4NXQjUzI1NiI6Iks0R0hvZVdoUmFhOTd6Um0xeDIzM0pwdlB3bm1GQVJGVlE1cE5QRDhsTEUiLCJ4NXQiOiJUYkdPcWVUWnJpeXZNZGplTC01MjAtaGVfRUUiLCJraWQiOiJTSUdOSU5HX0tFWSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI1YWM3NjYzYWViMzI0MjU3YTZlM2RhZDA0N2FmMDBiYSIsInVzZXIudGVuYW50Lm5hbWUiOiJicmF2b2UiLCJzdWJfbWFwcGluZ2F0dHIiOiJ1c2VyTmFtZSIsImlzcyI6Imh0dHBzOlwvXC9pZGVudGl0eS5vcmFjbGVjbG91ZC5jb21cLyIsImlzbGFuZF9uYW1lIjoiR2xvYmFsIiwidG9rX3R5cGUiOiJBVCIsImNsaWVudF9pZCI6IjVhYzc2NjNhZWIzMjQyNTdhNmUzZGFkMDQ3YWYwMGJhIiwiYXVkIjpbImh0dHBzOlwvXC9icmF2b2UuaWRlbnRpdHkuaW50ZXJuYWwub3JhY2xlLmNvbTo4OTQzIiwidXJuOm9wYzpsYmFhczpsb2dpY2FsZ3VpZD1icmF2b2UiXSwic3ViX3R5cGUiOiJjbGllbnQiLCJjbGllbnRBcHBSb2xlcyI6WyJEQiBBZG1pbmlzdHJhdG9yIiwiS2VyYmVyb3MgQWRtaW5pc3RyYXRvciIsIkZvcmdvdCBQYXNzd29yZCIsIkF1dGhlbnRpY2F0ZWQgQ2xpZW50IiwiVmVyaWZ5IEVtYWlsIiwiQXVkaXQgQWRtaW5pc3RyYXRvciIsIkNsb3VkIEdhdGUiLCJBcHBsaWNhdGlvbiBBZG1pbmlzdHJhdG9yIiwiQXV0aGVudGljYXRvciBDbGllbnQiLCJSZXNldCBQYXNzd29yZCIsIlNlbGYgUmVnaXN0cmF0aW9uIiwiR2xvYmFsIFZpZXdlciIsIklkZW50aXR5IERvbWFpbiBBZG1pbmlzdHJhdG9yIiwiU2lnbmluIiwiTWUiLCJNRkEgQ2xpZW50IiwiQ2hhbmdlIFBhc3N3b3JkIiwiU2VjdXJpdHkgQWRtaW5pc3RyYXRvciJdLCJzY29wZSI6InVybjpvcGM6aWRtOmcuaWRlbnRpdHlzb3VyY2V0ZW1wbGF0ZV9yIHVybjpvcGM6aWRtOnQuZ3JvdXBzLm1lbWJlcnNfciB1cm46b3BjOmlkbTp0LmFwcCB1cm46b3BjOmlkbTp0Lmdyb3Vwcy5tZW1iZXJzIHVybjpvcGM6aWRtOnQudXNlci5sb2NrZWRzdGF0ZWNoYW5nZXIgdXJuOm9wYzppZG06Zy5jZXJ0IHVybjpvcGM6aWRtOnQuaWRicmlkZ2UuYWRtaW4gdXJuOm9wYzppZG06dC50ZXJtc29mdXNlIHVybjpvcGM6aWRtOnQuaWRjc3JwdHMgdXJuOm9wYzppZG06dC5yZXF1ZXN0cyB1cm46b3BjOmlkbTp0LnNlY3VyaXR5LmNsaWVudCB1cm46b3BjOmlkbTp0LnNldHRpbmdzX3IgdXJuOm9wYzppZG06Zy5hcHB0ZW1wbGF0ZV9yIHVybjpvcGM6aWRtOnQuYnVsay51c2VyIHVybjpvcGM6aWRtOnQuZGlhZ25vc3RpY3NfciB1cm46b3BjOmlkbTp0LmlkYl9jb250YWluZXJzIHVybjpvcGM6aWRtOnQuaWRicmlkZ2UudXNlciB1cm46b3BjOmlkbTp0LnVzZXIubWUgdXJuOm9wYzppZG06Zy5hbGxfciB1cm46b3BjOmlkbTp0LmlkYnJpZGdlX3IgdXJuOm9wYzppZG06dC5tZmFfciB1cm46b3BjOmlkbTp0LnVzZXIucmVzZXRwYXNzd29yZCB1cm46b3BjOmlkbTp0LnVzZXIuc2VjdXJpdHkgdXJuOm9wYzppZG06dC5ncm91cHNfciB1cm46b3BjOmlkbTp0LmRpYWdub3N0aWNzIHVybjpvcGM6aWRtOnQuYXVkaXRfciB1cm46b3BjOmlkbTp0LmpvYi5hcHAgdXJuOm9wYzppZG06dC51c2VyLnNpZ25pbiB1cm46b3BjOmlkbTp0Lm9hdXRoY29uc2VudHMgdXJuOm9wYzppZG06dC51c2Vyc19yIHVybjpvcGM6aWRtOnQuc29taSB1cm46b3BjOmlkbTp0Lm1mYS5lbnJvbGwgdXJuOm9wYzppZG06Zy5zaGFyZWRmaWxlcyB1cm46b3BjOmlkbTp0LnJlcy5pbXBvcnRleHBvcnQgdXJuOm9wYzppZG06dC5qb2IuaWRlbnRpdHkgdXJuOm9wYzppZG06dC5kYi5hZG1pbiB1cm46b3BjOmlkbTp0LnNhbWwgdXJuOm9wYzppZG06dC5tZmEgdXJuOm9wYzppZG06dC5hcHBvbmx5X3IgdXJuOm9wYzppZG06dC5zY2hlbWFzIHVybjpvcGM6aWRtOnQubWZhLnVzZXJhZG1pbiB1cm46b3BjOmlkbTp0LmNsb3VkZ2F0ZV9yIHVybjpvcGM6aWRtOnQub2F1dGggdXJuOm9wYzppZG06dC5ncm91cHMgdXJuOm9wYzppZG06dC5qb2IuaW1wb3J0ZXhwb3J0IHVybjpvcGM6aWRtOnQuaWRicmlkZ2UudW5tYXBwZWQuaWRjc2F0dHJpYnV0ZXMgdXJuOm9wYzppZG06dC5rcmIuYWRtaW4gdXJuOm9wYzppZG06dC5uYW1lZGFwcGFkbWluIHVybjpvcGM6aWRtOnQuYmxrcnB0cyB1cm46b3BjOmlkbTp0LnNlbGZyZWdpc3RyYXRpb25wcm9maWxlIHVybjpvcGM6aWRtOnQudXNlci5hdXRoZW50aWNhdGUgdXJuOm9wYzppZG06dC5ncmFudHMgdXJuOm9wYzppZG06dC5hdXRoZW50aWNhdGlvbiB1cm46b3BjOmlkbTp0LmNvbnRhaW5lciB1cm46b3BjOmlkbTp0LmltYWdlcyB1cm46b3BjOmlkbTp0LmJ1bGsgdXJuOm9wYzppZG06dC5qb2Iuc2VhcmNoIHVybjpvcGM6aWRtOnQuaWRicmlkZ2UgdXJuOm9wYzppZG06dC5hcHBzZXJ2aWNlcyB1cm46b3BjOmlkbTp0LnNldHRpbmdzIHVybjpvcGM6aWRtOnQudXNlci52ZXJpZnllbWFpbCB1cm46b3BjOmlkbTp0LmNsb3VkZ2F0ZSB1cm46b3BjOmlkbTp0LmlkYnJpZGdlLnNvdXJjZWV2ZW50IHVybjpvcGM6aWRtOnQudXNlci5jaGFuZ2VwYXNzd29yZCB1cm46b3BjOmlkbTp0LmlkYl9jb250YWluZXJzX3IgdXJuOm9wYzppZG06dC5wb2xpY3kgdXJuOm9wYzppZG06dC5yZXBvcnRzIHVybjpvcGM6aWRtOnQudXNlcnMgdXJuOm9wYzppZG06dC5lbmNyeXB0aW9ua2V5IHVybjpvcGM6aWRtOnQudXNlci5tZWNyZWF0ZSB1cm46b3BjOmlkbTp0LmtyYi51cGRhdGUgdXJuOm9wYzppZG06Zy5pZGNzcnB0c21ldGFfciB1cm46b3BjOmlkbTp0LmFkYXB0aXZlX3IgdXJuOm9wYzppZG06dC51c2VyLmZvcmdvdHBhc3N3b3JkIiwiY2xpZW50X3RlbmFudG5hbWUiOiJicmF2b2UiLCJyZWdpb25fbmFtZSI6ImRlbjAyYnVqIiwiZXhwIjoxNTUzODQyMTY1LCJpYXQiOjE1NTM4Mzg1NjUsInRlbmFudF9pc3MiOiJodHRwczpcL1wvYnJhdm9lLmlkZW50aXR5LmludGVybmFsLm9yYWNsZS5jb206ODk0MyIsImNsaWVudF9ndWlkIjoiYzRiMjBhNmIxNmUyNGZlYzllM2UxODMyMmM5OTcyOTciLCJjbGllbnRfbmFtZSI6IkRlbW8iLCJ0ZW5hbnQiOiJicmF2b2UiLCJqdGkiOiI3OThiNGEzYi02YzQ4LTRmN2MtOWJmNi1hMjdhNDVmZGYxOGQifQ.IYptDXrlRzvXDeSzeYdT_OktO3fPntMPwI1ePUTdzOw_4l7XColVdQLvb_Xtgm5AiUKpkId9_y5MNiWW1HXOUA7Qk6Lrk39opggXSMjaq19Gh16oWS1D2Fmvx5AcSHyvdQ-RtgHCKZNOHjyG8oVoad9ClOn3NFNU1fqx1wU_Jbvh14NEruKt6A_5WSVlOB76exM89fhmf-7q7nQ_BHwZFEcsDTnA-zZuQ1poWvX2MnyWixOVrRGGsrSJNrsjcWtzvMsaqxm10tKRu_DUDbrjFkb5Qfegzw5kMCkqszvJnlZcaJ0R637JnLWMqdc4h6bPbBi8mevW0uDZ7bcS9b2zTg\",\n    \"token_type\": \"Bearer\",\n    \"expires_in\": 3600\n}"
+				}
+			]
+		},
+		{
+			"name": "Fetch Credentials",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HOST_RDS}}/api/data-pe/v1/fetch-credentials",
+					"host": [
+						"{{HOST_RDS}}"
+					],
+					"path": [
+						"api",
+						"data-pe",
+						"v1",
+						"fetch-credentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Wallet",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HOST_RDS}}/api/data-pe/v1/fetch-wallet",
+					"host": [
+						"{{HOST_RDS}}"
+					],
+					"path": [
+						"api",
+						"data-pe",
+						"v1",
+						"fetch-wallet"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

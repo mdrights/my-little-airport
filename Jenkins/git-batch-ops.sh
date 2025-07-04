@@ -2,27 +2,15 @@
 
 #set -e
 
-REPOS_DIR="/Users/cnyang/repo/pcatms"
+REPOS_DIR="/Users/cnyang/repo/"
 BRANCH="dev"
 COMMITMSG="Jenkinsfile: enable hotfix branch triggering package building."
 
 REPOS=(
-pcatms-attendanceservicecommon/
-pcatms-attendanceservicepamb/
-pcatms-attendanceservicepacs/
-pcatms-attendanceservicephkl/
-pcatms-phkl/
-pcatms-pamb/
-pcatms-pacs/
-pcatms-common/
-pcatms-litmossync/
-pcatms-CourseCompletion/
-pcatms-eureka/
 )
 
 cd ${REPOS_DIR}
 
-#RULE=$(grep -l "feature/PCATMSPHKL-18-create-config-map-files-for-phkl" */Jenkinsfile -R)
 #RULE=$(find . -type d -maxdepth 1)
 RULE=$(find . -type f -maxdepth 2 -name "*Jenkinsfile")
 

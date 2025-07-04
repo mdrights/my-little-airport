@@ -20,39 +20,39 @@ pipeline {
             [$class: 'GitSCM', branches: [[name: '*/master']], 
             doGenerateSubmoduleConfigurations: false, 
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tmsconfigmap']], 
-            submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'ee23c98b-bfb2-470b-b137-26c5d3be65ef', url: 'ssh://git@code.pruconnect.net:7999/pcatms/tmsconfigmap.git']]])
+            submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'ee23c98b-bfb2-470b-b137-26c5d3be65ef', url: 'ssh://git@code.xxxconnect.net:7999/pcatms/tmsconfigmap.git']]])
 
         // INSERT ANOTHER REPO HERE IF YOU NEED TO CHECKOUT.
 
         script {
-            def vaultAddr = 'https://vault.pru.intranet.asia'
+            def vaultAddr = 'https://vault.xxx.intranet.asia'
 
             if ( DESTENV == 'dev' ) {
                 sh 'echo This goes to: ${DESTENV}'
-                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-dev-az1-devpruexpert'
-                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-dev-az1-devpruexpert/token-sgrass-dev-az1-devpruexpert-deployer'
-                env.KUBE_NAMESPACE = 'sgrass-dev-az1-devpruexpert'
+                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-dev-az1-devxxxexpert'
+                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-dev-az1-devxxxexpert/token-sgrass-dev-az1-devxxxexpert-deployer'
+                env.KUBE_NAMESPACE = 'sgrass-dev-az1-devxxxexpert'
             }
 
             if ( DESTENV == 'sit' ) {
                 sh 'echo This goes to: ${DESTENV}'
-                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-dev-az1-pruexpert'
-                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-dev-az1-pruexpert/token-sgrass-dev-az1-pruexpert-deployer'
-                env.KUBE_NAMESPACE = 'sgrass-dev-az1-pruexpert'
+                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-dev-az1-xxxexpert'
+                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-dev-az1-xxxexpert/token-sgrass-dev-az1-xxxexpert-deployer'
+                env.KUBE_NAMESPACE = 'sgrass-dev-az1-xxxexpert'
             }
 
             if ( DESTENV == 'uat' ) {
                 sh 'echo This goes to: ${DESTENV}'
-                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-uat-az1-uatpruexpert'
-                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-uat-az1-uatpruexpert/token-sgrass-uat-az1-uatpruexpert-deployer'
-                env.KUBE_NAMESPACE = 'sgrass-uat-az1-uatpruexpert'
+                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-osdvum-az1-sgrass-uat-az1-uatxxxexpert'
+                env.vaultPath = 'kv2/sgrass/nprd/uat/osdvum/az1/sgrass-uat-az1-uatxxxexpert/token-sgrass-uat-az1-uatxxxexpert-deployer'
+                env.KUBE_NAMESPACE = 'sgrass-uat-az1-uatxxxexpert'
             }
 
             if ( DESTENV == 'prod' ) {
                 sh 'echo This goes to: ${DESTENV}'
-                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-r6eb4m-az1-sgrass-prd-az1-pruexpert'
-                env.vaultPath = 'kv2/sgrass/prod/prd/r6eb4m/az1/sgrass-prd-az1-pruexpert/token-sgrass-prd-az1-pruexpert-deployer'
-                env.KUBE_NAMESPACE = 'sgrass-prd-az1-pruexpert'
+                env.vaultAppRole = 'apr-sgrass-namespace-kvadmin-r6eb4m-az1-sgrass-prd-az1-xxxexpert'
+                env.vaultPath = 'kv2/sgrass/prod/prd/r6eb4m/az1/sgrass-prd-az1-xxxexpert/token-sgrass-prd-az1-xxxexpert-deployer'
+                env.KUBE_NAMESPACE = 'sgrass-prd-az1-xxxexpert'
             }
 
             def vaultConfiguration = [
@@ -78,7 +78,7 @@ pipeline {
 
                 echo "---- preparing options ----"
                 echo $KUBE_NAMESPACE
-                # export KUBE_NAMESPACE="sgrass-dev-az1-devpruexpert"
+                # export KUBE_NAMESPACE="sgrass-dev-az1-devxxxexpert"
                 export KC_OPTS=${KC_OPTS}" --kubeconfig=${WORKSPACE}/kubeconfig"
                 export KC_OPTS=${KC_OPTS}" --insecure-skip-tls-verify=true"
                 export KC_OPTS=${KC_OPTS}" --namespace=${KUBE_NAMESPACE}"

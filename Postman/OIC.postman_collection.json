@@ -1,0 +1,1354 @@
+{
+	"info": {
+		"_postman_id": "aaa258b0-51bf-413f-a56b-9b6d4be7a0cb",
+		"name": "OIC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38738128"
+	},
+	"item": [
+		{
+			"name": "No Password Expiration for OIC Account",
+			"item": [
+				{
+					"name": "Step 4 Get OIC Application AppRole",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{IDCS_HOST}}/admin/v1/AppRoles?attributes=groups,urn:ietf:params:scim:schemas:oracle:idcs:extension:user:User:appRoles&filter=displayName+co+%22ServiceUser%22+and+app.value+eq+%22{{OIC_APP_ID}}%22",
+							"host": [
+								"{{IDCS_HOST}}"
+							],
+							"path": [
+								"admin",
+								"v1",
+								"AppRoles"
+							],
+							"query": [
+								{
+									"key": "attributes",
+									"value": "groups,urn:ietf:params:scim:schemas:oracle:idcs:extension:user:User:appRoles"
+								},
+								{
+									"key": "filter",
+									"value": "displayName+co+%22ServiceUser%22+and+app.value+eq+%22{{OIC_APP_ID}}%22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Step 5 Grant Approle in OIC Application to BASICAUTH Application",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"app\": {\r\n  \"value\": \"{{OIC_APP_ID}}\"\r\n },\r\n \"entitlement\": {\r\n  \"attributeName\": \"appRoles\",\r\n  \"attributeValue\": \"{{OIC_APP_ROLE_ID}}\"\r\n },\r\n \"grantMechanism\": \"ADMINISTRATOR_TO_APP\",\r\n \"grantee\": {\r\n \"value\": \"{{SI_APP_ID}}\",\r\n  \"type\": \"App\"\r\n },\r\n \"schemas\": [\"urn:ietf:params:scim:schemas:oracle:idcs:Grant\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IDCS_HOST}}/admin/v1/Grants",
+							"host": [
+								"{{IDCS_HOST}}"
+							],
+							"path": [
+								"admin",
+								"v1",
+								"Grants"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gen 3",
+			"item": [
+				{
+					"name": "Authenticate - Auth Code (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-fin-dev-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/integrations?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Launch an Integration (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"action\": \"NOW\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/integrations/{{integration_id}}/schedule/jobs?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{integration_id}}",
+								"schedule",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate an Integration (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-HTTP-Method-Override",
+								"value": "PATCH",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"ACTIVATED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/integrations/{{integration_id}}?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{integration_id}}"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Import (Replace) Lookups (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-test-poc2024-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/linus.yang/Downloads/HCM_Outbound_Lookup_v2.csv"
+								},
+								{
+									"key": "type",
+									"value": "application/octet-stream",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/lookups/archive?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"lookups",
+								"archive"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Lookups (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-test-poc2024-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/lookups/{{lookup_name}}/archive?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"lookups",
+								"{{lookup_name}}",
+								"archive"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Integration (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-test-poc2024-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/integrations/{{INTEGR_ID}}/archive?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{INTEGR_ID}}",
+								"archive"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Connection (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-test-poc2024-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/connections/{{CONNECTION_ID}}?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"connections",
+								"{{CONNECTION_ID}}"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Schedules (GEN 3)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-test-poc2024-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{HOST_OIC}}/ic/api/integration/v1/integrations/{{INTEGR_ID}}/schedule?integrationInstance={{INTEGR_INSTANCE}}",
+							"host": [
+								"{{HOST_OIC}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{INTEGR_ID}}",
+								"schedule"
+							],
+							"query": [
+								{
+									"key": "integrationInstance",
+									"value": "{{INTEGR_INSTANCE}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gen 2",
+			"item": [
+				{
+					"name": "Authenticate - Auth Code (GEN 2)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-PRD-01",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/integrations",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate an Integration (GEN 2)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-HTTP-Method-Override",
+								"value": "PATCH",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"ACTIVATED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/integrations/{{integration_id}}",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{integration_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Launch an Integration (GEN 2)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"action\": \"NOW\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/integrations/{{integration_id}}/schedule/jobs",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{integration_id}}",
+								"schedule",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Schedules (GEN 2)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/integrations/{{INTEGR_ID}}/schedule",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"integrations",
+								"{{INTEGR_ID}}",
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Lookups (GEN 2)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-02",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/lookups/HCM_Outbound_Lookup/",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"lookups",
+								"HCM_Outbound_Lookup",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Lookups (GEN 2)",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "tokenName",
+									"value": "linus-aswgroup-dev-sit",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{OIC_CLIENT_ID}}",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{OIC_CLIENT_SECRET}}",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "{{OIC_SCOPE}}",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{OIC_CALLBACK_URL}}",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{HOST}}/oauth2/v1/token",
+									"type": "string"
+								},
+								{
+									"key": "authRequestParams",
+									"value": [
+										{
+											"key": "response_type",
+											"value": "code",
+											"enabled": true,
+											"send_as": "request_url"
+										}
+									],
+									"type": "any"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{HOST}}/oauth2/v1/authorize",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_OIC_2}}/ic/api/integration/v1/lookups/{{lookup_name}}/archive",
+							"host": [
+								"{{HOST_OIC_2}}"
+							],
+							"path": [
+								"ic",
+								"api",
+								"integration",
+								"v1",
+								"lookups",
+								"{{lookup_name}}",
+								"archive"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

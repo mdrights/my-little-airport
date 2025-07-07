@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "42878b6f-b30e-4a34-b0f9-abe100125b88",
+		"name": "Fusion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38738128"
+	},
+	"item": [
+		{
+			"name": "SOAP-Prod",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:oracle.bi.webservices/v6\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:yourOperation>\r\n         <!-- Add your request parameters here -->\r\n      </urn:yourOperation>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fa-erar-saasfaprod1.fa.ocs.oraclecloud.com/xmlpserver/services/ExternalReportWSSService?wsdl",
+					"protocol": "https",
+					"host": [
+						"fa-erar-saasfaprod1",
+						"fa",
+						"ocs",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"xmlpserver",
+						"services",
+						"ExternalReportWSSService"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SOAP-DEV1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/soap+xml",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:oracle.bi.webservices/v6\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:getEmployee>\r\n         <urn:employeeId>12345</urn:employeeId>\r\n      </urn:getEmployee>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>\r\n",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://fa-erar-dev1-saasfaprod1.fa.ocs.oraclecloud.com/xmlpserver/services/ExternalReportWSSService?wsdl",
+					"protocol": "https",
+					"host": [
+						"fa-erar-dev1-saasfaprod1",
+						"fa",
+						"ocs",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"xmlpserver",
+						"services",
+						"ExternalReportWSSService"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate Fusion - Auth Code",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "{{FUSION_SCOPE}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "{{OIC_CALLBACK_URL}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "linus-aswgroup-fin-dev-01",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{OIC_CLIENT_ID}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{OIC_CLIENT_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{HOST}}/oauth2/v1/token",
+							"type": "string"
+						},
+						{
+							"key": "authRequestParams",
+							"value": [
+								{
+									"key": "response_type",
+									"value": "code",
+									"enabled": true,
+									"send_as": "request_url"
+								}
+							],
+							"type": "any"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{HOST}}/oauth2/v1/authorize",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fa-erar-dev1-saasfaprod1.fa.ocs.oraclecloud.com/fscmRestApi/resources/11.13.18.05/erpintegrations",
+					"protocol": "https",
+					"host": [
+						"fa-erar-dev1-saasfaprod1",
+						"fa",
+						"ocs",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"fscmRestApi",
+						"resources",
+						"11.13.18.05",
+						"erpintegrations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
